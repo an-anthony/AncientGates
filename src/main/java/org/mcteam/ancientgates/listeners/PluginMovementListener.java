@@ -79,7 +79,7 @@ public class PluginMovementListener implements Listener {
 					coolTime = (lastTeleportTime + coolTime * 1000 - now) / 1000;
 					if(coolTime > 0){
 						//需要冷却
-						if(Plugin.lastMessageTime.get(player.getName()) < now - 10000L){
+						if(!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L){
 							player.sendMessage("§9GLaDos §f>> §b" + String.format("你恐怕还得等上%d秒才能再次进入这个测试。",coolTime));
 							Plugin.lastMessageTime.put(player.getName(), now);
 						}
