@@ -3,7 +3,7 @@ version: '${project.version}'
 description: '${project.description}'
 main: 'org.mcteam.ancientgates.Plugin'
 load: postworld
-author: 'NoChanceSD'
+author: 'NoChanceSD and an_anthony'
 api-version: 1.13
 softdepend:
     - Vault
@@ -176,4 +176,10 @@ permissions:
     default: op
   ancientgates.serverlist:
     description: Allows the use of Ancient Gates serverlist command.
+    default: op
+  ancientgates.setcooldowntime:
+    description: '设置传送门冷却时间'
+    default: op
+  ancientgates.setcooldownenable:
+    description: '设置是否启用传送门冷却'
     default: op

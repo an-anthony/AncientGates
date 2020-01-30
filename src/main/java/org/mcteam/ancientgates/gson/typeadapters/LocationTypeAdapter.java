@@ -21,6 +21,9 @@ public class LocationTypeAdapter implements JsonDeserializer<Location>, JsonSeri
 	private static final String Z = "z";
 	private static final String YAW = "yaw";
 	private static final String PITCH = "pitch";
+	/*This is added to achieve the feature cooldown*/
+	private static transient String COOL_DOWN_ENABLED = "cool_down_enabled";
+	private static transient String COOL_DOWN_TIME = "cool_down_time";
 
 	@Override
 	public Location deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context) throws JsonParseException {
@@ -59,7 +62,6 @@ public class LocationTypeAdapter implements JsonDeserializer<Location>, JsonSeri
 		obj.addProperty(Z, src.getZ());
 		obj.addProperty(YAW, src.getYaw());
 		obj.addProperty(PITCH, src.getPitch());
-
 		return obj;
 	}
 

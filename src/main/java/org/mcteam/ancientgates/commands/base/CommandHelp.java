@@ -86,6 +86,8 @@ public class CommandHelp extends BaseCommand {
 			lines.add(new CommandRemServer().getUsageTemplate(true, true));
 			lines.add(new CommandServerList().getUsageTemplate(true, true));
 		}
+		lines.add(new CommandSetCoolDownEnable().getUsageTemplate(true,true));
+		lines.add(new CommandSetCoolDownTime().getUsageTemplate(true,true));
 	}
 
 }

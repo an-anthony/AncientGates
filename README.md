@@ -1,13 +1,5 @@
 ### Ancient Gates Reloaded
 
-- Spigot Page: https://www.spigotmc.org/resources/ancient-gates.6583/
-- Dev Builds: http://ci.xephi.fr/job/AncientGates/ (Dead link)
-- Travis: [![Build Status](https://travis-ci.org/NoChanceSD/AncientGates.svg)](https://travis-ci.org/NoChanceSD/AncientGates)
+- Forked From https://github.com/NoChanceSD/AncientGates verson 2.3
 
-**Bstats**
-
-[![bStats](https://bstats.org/signatures/bukkit/AncientGates.svg "bStats")](https://bstats.org/plugin/bukkit/AncientGates/ "bStats")
-
-**McStats (Outdated)**
-
-[![](http://api.mcstats.org/signature/AncientGates.png)](http://mcstats.org/plugin/AncientGates)
+Fork原因 在自己服务器内使用，做了一点翻译，加了传送冷却，顺便(强行)提高了(很多)一下版本号以免以后安装回原版

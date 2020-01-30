@@ -2,6 +2,7 @@ package org.mcteam.ancientgates.listeners;
 
 import java.util.Calendar;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -53,14 +54,42 @@ public class PluginMovementListener implements Listener {
 			// Get current time
 			final Long now = Calendar.getInstance().getTimeInMillis();
 
+			// Before we change the sources, we should use some variables to instead of we need use cycle.
+			final Boolean lastContain = Plugin.lastTeleportTime.containsKey(player.getName());
+			final Long lastTeleportTime = lastContain ? Plugin.lastTeleportTime.get(player.getName()) : Long.valueOf(0);
+
 			// Check player has passed cooldown period
-			if (Plugin.lastTeleportTime.containsKey(player.getName()) && Plugin.lastTeleportTime.get(player.getName()) > now - Conf.getGateCooldownMillis())
+			if ( lastContain && lastTeleportTime > now - Conf.getGateCooldownMillis())
 				return;
+
+			// Okay, We should check each gate `cooldown` time
+			if(lastContain && nearestGate.getCoolDownEnabled() && lastTeleportTime != Long.valueOf(0)){
+				// First, Check permission(s) player have that can ignore cool-time limited
+				// Mr. Pikachu said: yamero!
+				// And then,
+				Long coolTime = nearestGate.getCoolDownTime();
+				// Limit Player use time
+				if(coolTime < 0){
+					//if(coolTime == -1){
+					player.sendMessage("§9GLaDos §f>> §b" + "你知道的, 这个门只能使用一次");
+					Plugin.lastMessageTime.put(player.getName(), now);
+					return;
+					//}
+				}else{
+					coolTime = (lastTeleportTime + coolTime * 1000 - now) / 1000;
+					if(coolTime > 0){
+						//需要冷却
+						player.sendMessage("§9GLaDos §f>> §b" + String.format("你恐怕还得等上%d秒才能再次进入这个测试。",coolTime));
+						Plugin.lastMessageTime.put(player.getName(), now);
+						return;
+					}
+				}
+			}
 
 			// Check player has permission to enter the gate.
 			if (!Plugin.hasPermManage(player, "ancientgates.use." + nearestGate.getId()) && !Plugin.hasPermManage(player, "ancientgates.use.*") && Conf.enforceAccess) {
 				if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-					player.sendMessage("You lack the permissions to enter this gate.");
+					player.sendMessage("§9GLaDos §f>> §b你不应该进入这个测试容器");
 					Plugin.lastMessageTime.put(player.getName(), now);
 				}
 				return;
@@ -69,7 +98,7 @@ public class PluginMovementListener implements Listener {
 			// Handle economy (check player has funds to use gate)
 			if (!Plugin.handleEconManage(player, nearestGate.getCost())) {
 				if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-					player.sendMessage("This gate costs: " + nearestGate.getCost() + ". You have insufficient funds.");
+					player.sendMessage("§9Wheatley §f>> §b抱歉伙计，你现在不配进门。等你有" + nearestGate.getCost() + "块钱的时候你才能进");
 					Plugin.lastMessageTime.put(player.getName(), now);
 				}
 				return;
@@ -87,7 +116,7 @@ public class PluginMovementListener implements Listener {
 			// Handle gates that do not point anywhere
 			if (nearestGate.getTo() == null && nearestGate.getBungeeTo() == null && nearestGate.getCommand() == null) {
 				if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-					player.sendMessage(String.format("This gate does not point anywhere :P"));
+					player.sendMessage("§9GLaDos §f>> §b这个测试容器正在建设中");
 					Plugin.lastMessageTime.put(player.getName(), now);
 				}
 				return;
@@ -147,7 +176,7 @@ public class PluginMovementListener implements Listener {
 				// Check player has permission to enter the gate.
 				if (!Plugin.hasPermManage(player, "ancientgates.use." + nearestGate.getId()) && !Plugin.hasPermManage(player, "ancientgates.use.*") && Conf.enforceAccess) {
 					if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-						player.sendMessage("You lack the permissions to enter this gate.");
+						player.sendMessage("§9GLaDos §f>> §b你不应该进入这个测试容器");
 						Plugin.lastMessageTime.put(player.getName(), now);
 					}
 					return;
@@ -156,7 +185,7 @@ public class PluginMovementListener implements Listener {
 				// Handle economy (check player has funds to use gate)
 				if (!Plugin.handleEconManage(player, nearestGate.getCost())) {
 					if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-						player.sendMessage("This gate costs: " + nearestGate.getCost() + ". You have insufficient funds.");
+						player.sendMessage("§9Wheatley §f>> §b抱歉伙计，你现在不配进门。等你有" + nearestGate.getCost() + "块钱的时候你才能进。");
 						Plugin.lastMessageTime.put(player.getName(), now);
 					}
 					return;
@@ -174,7 +203,7 @@ public class PluginMovementListener implements Listener {
 				// Handle gates that do not point anywhere
 				if (nearestGate.getTo() == null && nearestGate.getBungeeTo() == null && nearestGate.getCommand() == null) {
 					if (!Plugin.lastMessageTime.containsKey(player.getName()) || Plugin.lastMessageTime.get(player.getName()) < now - 10000L) {
-						player.sendMessage(String.format("This gate does not point anywhere :P"));
+						player.sendMessage("§9GLaDos §f>> §b这个测试容器正在建设中");
 						Plugin.lastMessageTime.put(player.getName(), now);
 					}
 					return;

@@ -21,32 +21,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.mcteam.ancientgates.commands.BaseCommand;
-import org.mcteam.ancientgates.commands.base.CommandAddFrom;
-import org.mcteam.ancientgates.commands.base.CommandAddTo;
-import org.mcteam.ancientgates.commands.base.CommandClose;
-import org.mcteam.ancientgates.commands.base.CommandCloseAll;
-import org.mcteam.ancientgates.commands.base.CommandCreate;
-import org.mcteam.ancientgates.commands.base.CommandDelete;
-import org.mcteam.ancientgates.commands.base.CommandHelp;
-import org.mcteam.ancientgates.commands.base.CommandInfo;
-import org.mcteam.ancientgates.commands.base.CommandList;
-import org.mcteam.ancientgates.commands.base.CommandOpen;
-import org.mcteam.ancientgates.commands.base.CommandOpenAll;
-import org.mcteam.ancientgates.commands.base.CommandRemExec;
-import org.mcteam.ancientgates.commands.base.CommandRemFrom;
-import org.mcteam.ancientgates.commands.base.CommandRemTo;
-import org.mcteam.ancientgates.commands.base.CommandRename;
-import org.mcteam.ancientgates.commands.base.CommandSetConf;
-import org.mcteam.ancientgates.commands.base.CommandSetEntities;
-import org.mcteam.ancientgates.commands.base.CommandSetExec;
-import org.mcteam.ancientgates.commands.base.CommandSetFrom;
-import org.mcteam.ancientgates.commands.base.CommandSetInventory;
-import org.mcteam.ancientgates.commands.base.CommandSetMaterial;
-import org.mcteam.ancientgates.commands.base.CommandSetMessage;
-import org.mcteam.ancientgates.commands.base.CommandSetTo;
-import org.mcteam.ancientgates.commands.base.CommandSetVehicles;
-import org.mcteam.ancientgates.commands.base.CommandTeleportFrom;
-import org.mcteam.ancientgates.commands.base.CommandTeleportTo;
+import org.mcteam.ancientgates.commands.base.*;
 import org.mcteam.ancientgates.commands.bungee.CommandSetBungeeType;
 import org.mcteam.ancientgates.commands.economy.CommandSetCost;
 import org.mcteam.ancientgates.commands.sockets.CommandAddServer;
@@ -155,8 +130,12 @@ public class Plugin extends JavaPlugin {
 		reload(null);
 
 		// Submit Stats
+		// But If I sub there will have a lot of errors in console,
+		// Sorry.
+		/*
 		final MetricsStarter metrics = new MetricsStarter(this);
 		metrics.setupMetrics();
+		 */
 
 		// Load gates from disc 
 		Gates.load();
@@ -220,6 +199,8 @@ public class Plugin extends JavaPlugin {
 			commands.add(new CommandServerList());
 		}
 		commands.add(new CommandSetConf());
+		commands.add(new CommandSetCoolDownTime());
+		commands.add(new CommandSetCoolDownEnable());
 
 		// Register/Unregister events
 		if (!Conf.useVanillaPortals && pluginMovementListener == null) {

@@ -43,6 +43,9 @@ public class Gate {
 	private static transient String Z = "z";
 	private static transient String YAW = "yaw";
 	private static transient String PITCH = "pitch";
+	/*This is added to achieve the feature cooldown*/
+	private static transient String COOL_DOWN_ENABLED = "cool_down_enabled";
+	private static transient String COOL_DOWN_TIME = "cool_down_time";
 
 	// Gates
 	private transient String id;
@@ -58,6 +61,8 @@ public class Gate {
 	private CommandType commandtype;
 	private String msg;
 	private double cost = 0.0;
+	private Boolean coolDownEnabled = false;
+	private Long coolDownTime = Long.valueOf(0);
 
 	// Legacy entries
 	private Location to;
@@ -219,6 +224,23 @@ public class Gate {
 
 	public Double getCost() {
 		return cost;
+	}
+
+	/*Get Set Method in cooldown*/
+	public void setCoolDownEnabled(final Boolean coolDownEnabled){
+		this.coolDownEnabled = coolDownEnabled;
+	}
+
+	public Boolean getCoolDownEnabled(){
+		return this.coolDownEnabled;
+	}
+
+	public void setCoolDownTime(final Long coolDownTime){
+		this.coolDownTime = coolDownTime;
+	}
+
+	public Long getCoolDownTime(){
+		return this.coolDownTime;
 	}
 
 	public void setTeleportEntities(final Boolean teleportEntities) {
